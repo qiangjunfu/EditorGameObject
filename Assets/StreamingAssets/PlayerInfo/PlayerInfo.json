@@ -1,0 +1,16 @@
+{
+  "glod": 100,
+  "silver": 10000,
+  "name": "我是主角",
+  "id": 11111,
+  "hp": 100,
+  "maxHP": 100,
+  "mp": 50,
+  "maxMP": 50,
+  "attack": 10,
+  "attackDistance": 5,
+  "defence": 20,
+  "perfabPath": "111",
+  "iconPath": "1111",
+  "characterType": 1
+}
