@@ -7,6 +7,24 @@ namespace UnityUtility
 {
     public static class UnityTool
     {
+
+       
+        public static HashSet<int> GetHashsetRandomNum(int num, int min, int max)
+        {
+            HashSet<int> hs = new HashSet<int>();
+            System.Random random = new System.Random();
+            for (int i = 0; hs.Count < num; i++)
+            {
+                int value = random.Next(min, max);
+                if (!hs.Contains(value))
+                {
+                    hs.Add(value);
+                }
+            }
+            return hs;
+        }
+
+
         /// <summary>
         /// 获取物体的根节点
         /// </summary>
@@ -23,7 +41,7 @@ namespace UnityUtility
                 return t;
             }
         }
-         
+
         ///<summary>
         ///删除数组元素
         ///</summary> 

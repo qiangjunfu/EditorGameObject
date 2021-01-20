@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +11,13 @@ public class Test1 : MonoBehaviour
 
     void Start()
     {
-        
+        TestStaticDelegate.PickUpItemEvent += AA;
+    }
+
+    private bool AA(Item item)
+    {
+        Debug.Log("拾取物品");
+        return false;
     }
 
     void Update()

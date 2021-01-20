@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -48,19 +49,19 @@ public class KnapsackManager
         itemList = new List<Item>();
     }
 
+
     #region  拾取物品回调
     public void OnEnableNew()
     {
-        UnityUtility.MessageManager.AddListener<Item>(UnityUtility.GameEventType.PickUpItemObj, PickUpItemObjCallback);
+        ItemObject.PickUpItemEvent += PickUpItemCallback;
     }
     public void OnDisableNew()
     {
-        UnityUtility.MessageManager.RemoveListener<Item>(UnityUtility.GameEventType.PickUpItemObj, PickUpItemObjCallback);
+        ItemObject.PickUpItemEvent -= PickUpItemCallback;
     }
-    private void PickUpItemObjCallback(Item arg1)
+    private bool PickUpItemCallback(Item item)
     {
-        Debug.Log("KnapsackManager -> PickUpItemObjCallback() -> 捡起物品回调");
-        PutInGrid(arg1);
+        return PutInGrid(item);
     }
     #endregion
 
@@ -87,18 +88,18 @@ public class KnapsackManager
             }
         }
     }
-    
+
 
 
     /// <summary>
     /// 将拾取item放入物品格子
     /// </summary>
-    public void PutInGrid(Item item)
+    public bool PutInGrid(Item item)
     {
         if (item == null)
         {
             Debug.Log($"KnapsackManager -> PutInItem() ->  item == null -------");
-            return;
+            return false;
         }
 
         if (IsContainsItem(item) == false)
@@ -111,22 +112,23 @@ public class KnapsackManager
                     itemList[i] = item;
                     gridList[i].Item = item;
                     PutInItemEvent?.Invoke(gridList[i], gridList[i].Item);
-                    return;
+                    return true;
                 }
             }
             Debug.Log($"KnapsackManager -> PutInItem() -> 背包格子已经被沾满 -------");
         }
+        return false;
     }
 
     /// <summary>
     /// 将item放入指定grid格子
     /// </summary>
-    public void PutInAssignGrid(Grid grid, Item item)
+    public bool PutInAssignGrid(Grid grid, Item item)
     {
         if (item == null)
         {
             Debug.Log($"KnapsackManager -> PutInAssignGrid() ->  item == null -------");
-            return;
+            return false;
         }
 
         if (IsContainsItem(item) == false)
@@ -138,11 +140,12 @@ public class KnapsackManager
                     itemList[i] = item;
                     gridList[i].Item = item;
                     PutInItemEvent?.Invoke(gridList[i], itemList[i]);
-                    return;
+                    return true;
                 }
             }
             Debug.Log($"KnapsackManager -> PutInAssignGrid() -> 背包格子列表不包含{grid}-------");
         }
+        return false;
     }
 
     /// <summary>
